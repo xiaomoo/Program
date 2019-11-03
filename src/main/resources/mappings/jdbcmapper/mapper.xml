@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.simple.demo.mapper.Mapper">
+    <cache readOnly="true" size="128" flushInterval="30000" />
+
+    <!--按条件查询-->
+    <select id="findByCondition" parameterType="java.util.Map" resultType="com.simple.demo.domain.PersonModel">
+        select * from person where 1=1
+        <if test="id != null and id != ''">
+            and id = #{id}
+        </if>
+        <if test="name != null and name != ''">
+            or name like concat('%',#{name},'%')
+        </if>
+    </select>
+
+    <!--插入-->
+    <insert id="addById" flushCache="true" timeout="3" keyColumn="id" useGeneratedKeys="true" parameterType="com.simple.demo.domain.PersonModel">
+        insert into person
+        (
+          name,sex,age,introduce
+        )
+        values
+        (
+        #{name},
+        #{sex},
+        #{age},
+        #{introduce}
+        )
+    </insert>
+
+    <!--更新-->
+    <update id="updateById" keyColumn="id" flushCache="true" timeout="3" useGeneratedKeys="true" parameterType="com.simple.demo.domain.PersonModel">
+        update person
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="sex != null and sex != ''">
+                sex = #{sex},
+            </if>
+            <if test="age !=null and age != ''">
+                age = #{age},
+            </if>
+            <if test="introduce != null and introduce != ''">
+                introduce = #{introduce}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--删除-->
+    <delete id="deleteById" flushCache="true" timeout="3" parameterType="java.lang.Integer">
+        delete from person where id = #{id}
+    </delete>
+</mapper>

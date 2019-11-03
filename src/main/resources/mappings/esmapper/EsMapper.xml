@@ -1,0 +1,45 @@
+<properties>
+    <property name="mutiConditionSearch">
+        <![CDATA[
+
+        {
+            "query": {
+                "bool": {
+                    "must": [
+                        #foreach($key in $condition.keySet())
+                        #if($velocityCount > 0),#end
+                        {
+                            "match": {
+                                "$key": #[condition[$key]]
+                            }
+                        }
+                        #end
+                    ]
+                }
+            },
+            "size": 1000
+        }
+        ]]>
+    </property>
+    <property name="filterSearch">
+        <![CDATA[
+        {
+            "query": {
+                "bool": {
+                    "filter": [
+                        #foreach($key in $condition.keySet())
+                        #if($velocityCount > 0),#end
+                        {
+                            "term": {
+                                "$key": #[condition[$key]]
+                            }
+                        }
+                        #end
+                    ]
+                }
+            },
+            "size": 1000
+        }
+        ]]>
+    </property>
+</properties>

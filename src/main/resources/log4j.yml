@@ -1,0 +1,31 @@
+log4j:
+  rootLogger: INFO,CONSOLE
+  ##bboss需要的category配置
+  category:
+    com.frameworkset: INFO, COMMON_FILE
+    org:
+      frameworkset: INFO, COMMON_FILE
+      apache: INFO, COMMON_FILE
+    bboss: INFO, COMMON_FILE
+
+  ###################
+  # Console Appender
+  ###################
+  appender:
+    CONSOLE: org.apache.log4j.ConsoleAppender
+      Threshold: INFO
+      Target: System.out
+      layout: org.apache.log4j.PatternLayout
+        ConversionPattern: [%d{yyyy-MM-dd HH:mm:ss}][%p]%x[%c] %m%n
+
+  #####################
+  # Common Rolling File Appender
+  #####################
+    COMMON_FILE: org.apache.log4j.RollingFileAppender
+      Threshold: INFO
+      File: common.log
+      Append: true
+      MaxFileSize: 10240KB
+      MaxBackupIndex: 10
+      layout: org.apache.log4j.PatternLayout
+        ConversionPattern: [%d{yyyy-MM-dd HH:mm:ss}][%p]%x[%c] %m%n
